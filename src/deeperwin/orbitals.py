@@ -181,14 +181,14 @@ def get_baseline_solution(physical_config: PhysicalConfig, casscf_config: CASSCF
     molecule = build_pyscf_molecule(R, Z, charge, spin, casscf_config.basis_set)
     atomic_orbitals = _get_atomic_orbital_basis_functions(molecule)
 
-    hf = pyscf.scf.HF(molecule)
+    hf = pyscf.scf.RHF(molecule)
     hf.verbose = 0  # suppress output to console
     hf.kernel()
 
-    casscf = pyscf.mcscf.UCASSCF(hf, physical_config.n_cas_orbitals, physical_config.n_cas_electrons)
+    casscf = pyscf.mcscf.CASSCF(hf, physical_config.n_cas_orbitals, physical_config.n_cas_electrons)
     casscf.kernel()
 
-    mo_coeff = list(casscf.mo_coeff)  # tuple of spin_up, spin_down
+    mo_coeff = [casscf.mo_coeff, casscf.mo_coeff]  # tuple of spin_up, spin_down
     ind_orbitals = _get_orbital_indices(casscf)
     ci_weights = casscf.ci.flatten()
 

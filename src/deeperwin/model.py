@@ -464,7 +464,7 @@ def build_jastrow_factor(config: DeepErwinModelConfig, n_up, name="jastrow"):
 
 
 def _evaluate_sum_of_determinants(mo_matrix_up, mo_matrix_dn, ci_weights):
-    LOG_EPSILON = 1e-8
+    LOG_EPSILON = 0
     sign_up, log_up = jnp.linalg.slogdet(mo_matrix_up)
     sign_dn, log_dn = jnp.linalg.slogdet(mo_matrix_dn)
     log_total = log_up + log_dn
